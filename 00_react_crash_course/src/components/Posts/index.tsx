@@ -12,12 +12,15 @@ interface PostsProps {
 
 export default function Posts({ showModal, closeModal }: PostsProps) {
   const [posts, setPosts] = useState<IPost[]>([]);
+  const [isFetching, setIsFetching] = useState(false);
 
   useEffect(() => {
     async function fetchPosts() {
+      setIsFetching(true);
       const res = await fetch("http://localhost:8080/posts");
       const data: { posts: IPost[] } = await res.json();
       setPosts(data.posts);
+      setIsFetching(false);
     }
     fetchPosts();
   }, []);
@@ -40,7 +43,11 @@ export default function Posts({ showModal, closeModal }: PostsProps) {
           <NewPost onCancel={closeModal} createPost={createPost} />
         </Modal>
       )}
-      {posts.length ? (
+      {isFetching ? (
+        <div style={{ textAlign: "center", color: "white" }}>
+          <h2>loading posts...</h2>
+        </div>
+      ) : posts.length ? (
         <ul className={styles.posts}>
           {posts.map((p) => (
             <Post key={p.id} author={p.author} text={p.body} />
