@@ -1,7 +1,7 @@
 import styles from "./index.module.css";
 import NewPost from "../NewPost";
 import Post from "../Post";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "../Modal";
 import { IPost } from "../../types";
 
@@ -13,7 +13,23 @@ interface PostsProps {
 export default function Posts({ showModal, closeModal }: PostsProps) {
   const [posts, setPosts] = useState<IPost[]>([]);
 
+  useEffect(() => {
+    async function fetchPosts() {
+      const res = await fetch("http://localhost:8080/posts");
+      const data: { posts: IPost[] } = await res.json();
+      setPosts(data.posts);
+    }
+    fetchPosts();
+  }, []);
+
   function createPost(post: IPost) {
+    fetch("http://localhost:8080/posts", {
+      method: "POST",
+      body: JSON.stringify(post),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     setPosts((p) => [post, ...p]);
   }
 

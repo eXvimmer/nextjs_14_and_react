@@ -19,7 +19,6 @@ function NewPost({ onCancel, createPost }: NewPostProps) {
     createPost({
       body,
       author,
-      id: crypto.randomUUID(),
     });
     onCancel();
   };
