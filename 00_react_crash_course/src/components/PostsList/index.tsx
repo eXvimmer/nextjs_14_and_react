@@ -1,22 +1,10 @@
 import styles from "./index.module.css";
 import Post from "../Post";
-import { useEffect, useState } from "react";
 import { IPost } from "../../types";
+import { useLoaderData } from "react-router-dom";
 
 export default function PostsList() {
-  const [posts, setPosts] = useState<IPost[]>([]);
-  const [isFetching, setIsFetching] = useState(false);
-
-  useEffect(() => {
-    async function fetchPosts() {
-      setIsFetching(true);
-      const res = await fetch("http://localhost:8080/posts");
-      const data: { posts: IPost[] } = await res.json();
-      setPosts(data.posts);
-      setIsFetching(false);
-    }
-    fetchPosts();
-  }, []);
+  const posts = useLoaderData() as IPost[];
 
   // function createPost(post: IPost) {
   //   fetch("http://localhost:8080/posts", {
@@ -31,11 +19,7 @@ export default function PostsList() {
 
   return (
     <>
-      {isFetching ? (
-        <div style={{ textAlign: "center", color: "white" }}>
-          <h2>loading posts...</h2>
-        </div>
-      ) : posts.length ? (
+      {posts.length ? (
         <ul className={styles.posts}>
           {posts.map((p) => (
             <Post key={p.id} author={p.author} text={p.body} />
