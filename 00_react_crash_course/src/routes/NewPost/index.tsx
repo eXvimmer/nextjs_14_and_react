@@ -1,53 +1,19 @@
-import { useState } from "react";
 import styles from "./index.module.css";
-import { IPost } from "../../types";
 import Modal from "../../components/Modal";
-import { Link } from "react-router-dom";
+import { Link, Form, ActionFunction, redirect } from "react-router-dom";
+import { IPost } from "../../types";
 
-interface NewPostProps {
-  createPost(post: { body: IPost["body"]; author: IPost["author"] }): void;
-}
-
-function NewPost({ createPost }: NewPostProps) {
-  const [author, setAuthor] = useState("");
-  const [body, setBody] = useState("");
-
-  const handleFormSubmission: React.FormEventHandler = (e) => {
-    e.preventDefault();
-    if (!body || !author) {
-      return;
-    }
-    createPost({
-      body,
-      author,
-    });
-  };
-
+function NewPost() {
   return (
     <Modal>
-      <form className={styles.form} onSubmit={handleFormSubmission}>
+      <Form method="POST" className={styles.form}>
         <p>
           <label htmlFor="name">Your name</label>
-          <input
-            autoFocus
-            type="text"
-            id="name"
-            required
-            onChange={(e) => {
-              setAuthor(e.target.value);
-            }}
-          />
+          <input autoFocus type="text" id="name" name="author" required />
         </p>
         <p>
           <label htmlFor="body">Text</label>
-          <textarea
-            id="body"
-            required
-            rows={3}
-            onChange={(e) => {
-              setBody(e.target.value);
-            }}
-          />
+          <textarea id="body" required name="body" rows={3} />
         </p>
         <p className={styles.actions}>
           <Link to=".." type="button">
@@ -55,9 +21,22 @@ function NewPost({ createPost }: NewPostProps) {
           </Link>
           <button type="submit">Submit</button>
         </p>
-      </form>
+      </Form>
     </Modal>
   );
 }
 
 export default NewPost;
+
+export const action: ActionFunction<Partial<IPost>> = async ({ request }) => {
+  const formData = await request.formData();
+  const postData = Object.fromEntries(formData);
+  await fetch("http://localhost:8080/posts", {
+    method: "POST",
+    body: JSON.stringify(postData),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return redirect("/");
+};
