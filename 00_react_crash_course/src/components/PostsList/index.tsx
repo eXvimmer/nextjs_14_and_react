@@ -11,7 +11,7 @@ export default function PostsList() {
       {posts.length ? (
         <ul className={styles.posts}>
           {posts.map((p) => (
-            <Post key={p.id} author={p.author} text={p.body} />
+            <Post key={p.id} {...p} />
           ))}
         </ul>
       ) : (
