@@ -12,7 +12,8 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en">
+    // TODO: remove suppressHydrationWarning in prod
+    <html lang="en" suppressHydrationWarning>
       <body>
         <div className="header-background">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
