@@ -19,6 +19,7 @@ function MealsPage() {
       </header>
       <main className={styles.main}>
         <MealsGrid meals={[]} />
+        {/* TODO: add meals */}
       </main>
     </>
   );
