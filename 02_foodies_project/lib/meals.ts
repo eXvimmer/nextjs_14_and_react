@@ -7,6 +7,6 @@ export async function getMeals(): Promise<Meal[]> {
   return db.prepare(`SELECT * FROM meals`).all() as Meal[];
 }
 
-export function getMeal(slug: Meal["slug"]): Meal {
+export function getMeal(slug: Meal["slug"]): Meal | undefined {
   return db.prepare(`SELECT * FROM meals WHERE slug = ?`).get(slug) as Meal;
 }
