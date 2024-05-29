@@ -9,7 +9,7 @@ interface ImagePickerProps {
 }
 
 export default function ImagePicker({ label, name }: ImagePickerProps) {
-  const [pickedImage, setPickedImage] = useState<string>("");
+  const [pickedImage, setPickedImage] = useState("");
   const imageInput = useRef<HTMLInputElement>(null);
 
   function handleImagePick() {
