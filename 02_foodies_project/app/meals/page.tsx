@@ -18,7 +18,8 @@ function MealsPage() {
           <span className={styles.highlight}>by you</span>
         </h1>
         <p>
-          Choose your favorite recipe and cook it yourself. It's easy and fun!
+          Choose your favorite recipe and cook it yourself. It&apos;s easy and
+          fun!
         </p>
         <p className={styles.cta}>
           <Link href="/meals/share">Share Your Favorite Recipe</Link>
