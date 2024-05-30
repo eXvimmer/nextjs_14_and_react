@@ -3,24 +3,30 @@
 import { redirect } from "next/navigation";
 import { saveMeal } from "./meals";
 
+function isInvalidText(text: string | undefined) {
+  return !text || text.trim() === "";
+}
+
 export async function shareMeal(formData: FormData) {
   const meal = {
-    title: formData.get("title"),
-    summary: formData.get("summary"),
-    instructions: formData.get("instructions"),
-    image: formData.get("image"),
-    creator: formData.get("name"),
-    creator_email: formData.get("email"),
+    title: formData.get("title")?.toString(),
+    summary: formData.get("summary")?.toString(),
+    instructions: formData.get("instructions")?.toString(),
+    image: formData.get("image") as File | undefined,
+    creator: formData.get("name")?.toString(),
+    creator_email: formData.get("email")?.toString(),
   };
   if (
-    !meal.title ||
-    !meal.summary ||
-    !meal.instructions ||
+    isInvalidText(meal.title) ||
+    isInvalidText(meal.summary) ||
+    isInvalidText(meal.instructions) ||
+    isInvalidText(meal.creator) ||
+    isInvalidText(meal.creator_email) ||
+    !meal.creator_email?.includes("@") ||
     !meal.image ||
-    !meal.creator ||
-    !meal.creator_email
+    meal.image.size === 0
   ) {
-    throw new Error("A field is missing");
+    throw new Error("Invalid input");
   }
   await saveMeal(meal);
   redirect("/meals");
