@@ -40,7 +40,6 @@ export default function ShareMealPage() {
               required
             ></textarea>
           </p>
-          {/* TODO: handle form submission */}
           <ImagePicker label="Your Image" name="image" />
           <p className={styles.actions}>
             <button type="submit">Share Meal</button>
