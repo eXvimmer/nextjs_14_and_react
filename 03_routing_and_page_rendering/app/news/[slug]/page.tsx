@@ -8,7 +8,7 @@ export default function NewsDetailPage({
 }) {
   const n = DUMMY_NEWS.find((n) => n.slug === params.slug);
   if (!n) {
-    return notFound();
+    notFound();
   }
   return (
     <article className="news-article">
