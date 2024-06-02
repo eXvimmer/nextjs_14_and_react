@@ -37,7 +37,7 @@ export function getNewsForYear(year: string) {
   );
 }
 
-export function getNewsForYearAndMonth(year: number, month: number) {
+export function getNewsForYearAndMonth(year: string, month: string) {
   return DUMMY_NEWS.filter((news) => {
     const newsYear = new Date(news.date).getFullYear();
     const newsMonth = new Date(news.date).getMonth() + 1;
