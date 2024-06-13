@@ -1,7 +1,10 @@
-import { DUMMY_NEWS } from "@/dummy_news";
+import { DUMMY_NEWS, INews } from "@/dummy_news";
+import sql from "better-sqlite3";
+
+const db = sql("data.db"); // path to db is relative to root
 
 export function getAllNews() {
-  return DUMMY_NEWS;
+  return db.prepare(`SELECT * FROM news`).all() as INews[];
 }
 
 export function getLatestNews() {
