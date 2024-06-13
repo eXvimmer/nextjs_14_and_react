@@ -1,6 +1,6 @@
 import NewsList from "@/components/NewsList";
-import { INews } from "@/dummy_news";
 import {
+  INews,
   getAvailableNewsMonths,
   getAvailableNewsYears,
   getNewsForYear,
@@ -8,7 +8,7 @@ import {
 } from "@/lib/news";
 import Link from "next/link";
 
-export default function FilteredNewsPage({
+export default async function FilteredNewsPage({
   params: { filter },
 }: {
   params: { filter?: string[] };
@@ -35,11 +35,10 @@ export default function FilteredNewsPage({
   }
 
   if (
-    (selectedYear &&
-      !getAvailableNewsYears().includes(parseInt(selectedYear))) ||
+    (selectedYear && !getAvailableNewsYears().includes(selectedYear)) ||
     (selectedYear &&
       selectedMonth &&
-      !getAvailableNewsMonths(selectedYear).includes(parseInt(selectedMonth)))
+      !getAvailableNewsMonths(selectedYear).includes(selectedMonth))
   ) {
     throw new Error("Invalid filter");
   }

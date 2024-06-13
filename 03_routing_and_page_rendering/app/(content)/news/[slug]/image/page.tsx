@@ -1,4 +1,4 @@
-import { DUMMY_NEWS } from "@/dummy_news";
+import { getNewsItem } from "@/lib/news";
 import { notFound } from "next/navigation";
 
 export default function ImagePage({
@@ -6,7 +6,7 @@ export default function ImagePage({
 }: {
   params: { slug: string };
 }) {
-  const n = DUMMY_NEWS.find((n) => n.slug === slug);
+  const n = getNewsItem(slug);
   if (!n) {
     notFound();
   }

@@ -1,4 +1,4 @@
-import { INews } from "@/dummy_news";
+import { INews } from "@/lib/news";
 import Link from "next/link";
 
 export default function NewsList({ news }: { news: INews[] }) {
