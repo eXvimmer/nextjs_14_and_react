@@ -1,6 +1,7 @@
 import sql from "better-sqlite3";
 
 // TODO: fix all types
+// TODO: remove all delays
 
 export interface IUser {
   id: number;
