@@ -39,6 +39,7 @@ export async function createPost(
     content,
     userId: 1, // TODO: fix the user id
   });
+  revalidatePath("/", "layout");
   redirect("/feed");
 }
 

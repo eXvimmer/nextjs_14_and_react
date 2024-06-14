@@ -1,30 +1,6 @@
 import sql from "better-sqlite3";
 
-// TODO: fix all types
-// TODO: remove all delays
-
-export interface IUser {
-  id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-}
-
 export interface IPost {
-  id: number;
-  imageUrl: string;
-  title: string;
-  content: string;
-  createdAt: string;
-  userId: number;
-}
-
-export interface ILike {
-  userId: number;
-  postId: number;
-}
-
-export interface ILatestPost {
   id: string;
   image: string;
   title: string;
@@ -82,7 +58,7 @@ function initDb() {
 
 initDb();
 
-export async function getPosts(maxNumber: number) {
+export async function getPosts(maxNumber?: number) {
   let limitClause = "";
   if (maxNumber) {
     limitClause = "LIMIT ?";
@@ -109,7 +85,6 @@ export async function getPosts(maxNumber: number) {
     ORDER BY createdAt DESC
     ${limitClause}`);
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
   return maxNumber ? stmt.all(maxNumber) : stmt.all();
 }
 
@@ -122,7 +97,6 @@ export async function storePost(post: {
   const stmt = db.prepare<[string, string, string, number], null>(`
     INSERT INTO posts (image_url, title, content, user_id)
     VALUES (?, ?, ?, ?)`);
-  await new Promise((resolve) => setTimeout(resolve, 1000));
   return stmt.run(post.imageUrl, post.title, post.content, post.userId);
 }
 
@@ -138,13 +112,11 @@ export async function updatePostLikeStatus(postId: number, userId: number) {
     const stmt = db.prepare<[number, number], null>(`
       INSERT INTO likes (user_id, post_id)
       VALUES (?, ?)`);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     return stmt.run(userId, postId);
   } else {
     const stmt = db.prepare<[number, number], null>(`
       DELETE FROM likes
       WHERE user_id = ? AND post_id = ?`);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
     return stmt.run(userId, postId);
   }
 }

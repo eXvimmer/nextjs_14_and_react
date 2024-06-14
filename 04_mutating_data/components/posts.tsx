@@ -1,7 +1,7 @@
 "use client";
 import { formatDate } from "@/lib/format";
 import LikeButton from "./like-icon";
-import { ILatestPost } from "@/lib/posts";
+import { IPost } from "@/lib/posts";
 import { togglePostLikeStatus } from "@/actions/posts";
 import { useOptimistic } from "react";
 
@@ -9,7 +9,7 @@ function Post({
   post,
   action,
 }: {
-  post: ILatestPost;
+  post: IPost;
   action: (postId: string) => Promise<void>;
 }) {
   return (
@@ -43,9 +43,9 @@ function Post({
   );
 }
 
-export default function Posts({ posts }: { posts: ILatestPost[] }) {
+export default function Posts({ posts }: { posts: IPost[] }) {
   const [optimisticPosts, updatePostsOptimistically] = useOptimistic<
-    ILatestPost[],
+    IPost[],
     string
   >(posts, (prevPosts, updatedPostId) => {
     const updatedPostIndex = prevPosts.findIndex((p) => p.id === updatedPostId);
