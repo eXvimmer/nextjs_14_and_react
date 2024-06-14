@@ -1,7 +1,7 @@
 "use server";
 
 import { uploadImage } from "@/lib/cloudinary";
-import { storePost } from "@/lib/posts";
+import { storePost, updatePostLikeStatus } from "@/lib/posts";
 import { redirect } from "next/navigation";
 
 export async function createPost(
@@ -39,4 +39,8 @@ export async function createPost(
     userId: 1, // TODO: fix the user id
   });
   redirect("/feed");
+}
+
+export async function togglePostLikeStatus(postId: string) {
+  updatePostLikeStatus(+postId, 2);
 }
