@@ -1,13 +1,26 @@
-import FormSubmit from "@/components/form-submit";
+import PostForm, { PostFormState } from "@/components/post-form";
 import { storePost } from "@/lib/posts";
 import { redirect } from "next/navigation";
 
 export default function NewPostPage() {
-  async function createPost(formData: FormData) {
+  async function createPost(_prevState: PostFormState, formData: FormData) {
     "use server";
     const title = formData.get("title") as string;
     const image = formData.get("image") as File;
     const content = formData.get("content") as string;
+    const errors: PostFormState["errors"] = [];
+    if (!title.trim()) {
+      errors.push("title is requried");
+    }
+    if (!content.trim()) {
+      errors.push("content is required");
+    }
+    if (!image || !image.size) {
+      errors.push("image is required");
+    }
+    if (errors.length) {
+      return { errors };
+    }
     await storePost({
       imageUrl: "", // TODO: fix this
       title,
@@ -17,31 +30,5 @@ export default function NewPostPage() {
     redirect("/feed");
   }
 
-  return (
-    <>
-      <h1>Create a new post</h1>
-      <form action={createPost}>
-        <p className="form-control">
-          <label htmlFor="title">Title</label>
-          <input type="text" id="title" name="title" />
-        </p>
-        <p className="form-control">
-          <label htmlFor="image">Image URL</label>
-          <input
-            type="file"
-            accept="image/png, image/jpeg"
-            id="image"
-            name="image"
-          />
-        </p>
-        <p className="form-control">
-          <label htmlFor="content">Content</label>
-          <textarea id="content" name="content" rows={5} />
-        </p>
-        <p className="form-actions">
-          <FormSubmit />
-        </p>
-      </form>
-    </>
-  );
+  return <PostForm action={createPost} />;
 }
