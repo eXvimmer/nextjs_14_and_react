@@ -4,8 +4,8 @@ import sql from "better-sqlite3";
 
 export interface IUser {
   id: number;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   email: string;
 }
 
@@ -19,8 +19,20 @@ export interface IPost {
 }
 
 export interface ILike {
-  user_id: number;
-  post_id: number;
+  userId: number;
+  postId: number;
+}
+
+export interface ILatestPost {
+  id: string;
+  image: string;
+  title: string;
+  content: string;
+  createdAt: string;
+  userFirstName: string;
+  userLastName: string;
+  likes: number;
+  isLiked: boolean;
 }
 
 const db = new sql("posts.db");

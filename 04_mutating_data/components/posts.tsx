@@ -1,8 +1,8 @@
 import { formatDate } from "@/lib/format";
 import LikeButton from "./like-icon";
-import { IPost } from "@/lib/posts";
+import { ILatestPost } from "@/lib/posts";
 
-function Post({ post }: { post: IPost }) {
+function Post({ post }: { post: ILatestPost }) {
   return (
     <article className="post">
       <div className="post-image">
@@ -29,7 +29,7 @@ function Post({ post }: { post: IPost }) {
   );
 }
 
-export default function Posts({ posts }: { posts: IPost[] }) {
+export default function Posts({ posts }: { posts: ILatestPost[] }) {
   if (!posts || posts.length === 0) {
     return <p>There are no posts yet. Maybe start sharing some?</p>;
   }
