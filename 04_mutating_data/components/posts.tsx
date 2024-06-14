@@ -1,9 +1,17 @@
+"use client";
 import { formatDate } from "@/lib/format";
 import LikeButton from "./like-icon";
 import { ILatestPost } from "@/lib/posts";
 import { togglePostLikeStatus } from "@/actions/posts";
+import { useOptimistic } from "react";
 
-function Post({ post }: { post: ILatestPost }) {
+function Post({
+  post,
+  action,
+}: {
+  post: ILatestPost;
+  action: (postId: string) => Promise<void>;
+}) {
   return (
     <article className="post">
       <div className="post-image">
@@ -22,7 +30,7 @@ function Post({ post }: { post: ILatestPost }) {
           </div>
           <div>
             <form
-              action={togglePostLikeStatus.bind(null, post.id)}
+              action={action.bind(null, post.id)}
               className={post.isLiked ? "liked" : ""}
             >
               <LikeButton />
@@ -36,15 +44,36 @@ function Post({ post }: { post: ILatestPost }) {
 }
 
 export default function Posts({ posts }: { posts: ILatestPost[] }) {
-  if (!posts || posts.length === 0) {
+  const [optimisticPosts, updatePostsOptimistically] = useOptimistic<
+    ILatestPost[],
+    string
+  >(posts, (prevPosts, updatedPostId) => {
+    const updatedPostIndex = prevPosts.findIndex((p) => p.id === updatedPostId);
+    if (updatedPostIndex === -1) {
+      return prevPosts;
+    }
+    const updatedPost = { ...prevPosts[updatedPostIndex] };
+    updatedPost.likes += updatedPost.isLiked ? -1 : 1;
+    updatedPost.isLiked = !updatedPost.isLiked;
+    const newPosts = [...prevPosts];
+    newPosts[updatedPostIndex] = updatedPost;
+    return newPosts;
+  });
+
+  async function updatePost(postId: string) {
+    updatePostsOptimistically(postId);
+    await togglePostLikeStatus(postId);
+  }
+
+  if (!optimisticPosts || optimisticPosts.length === 0) {
     return <p>There are no posts yet. Maybe start sharing some?</p>;
   }
 
   return (
     <ul className="posts">
-      {posts.map((post) => (
+      {optimisticPosts.map((post) => (
         <li key={post.id}>
-          <Post post={post} />
+          <Post post={post} action={updatePost} />
         </li>
       ))}
     </ul>
