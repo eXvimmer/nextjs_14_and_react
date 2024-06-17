@@ -4,7 +4,13 @@ import LikeButton from "./like-icon";
 import { IPost } from "@/lib/posts";
 import { togglePostLikeStatus } from "@/actions/posts";
 import { useOptimistic } from "react";
-import Image from "next/image";
+import Image, { ImageLoader } from "next/image";
+
+const imageLoader: ImageLoader = (config) => {
+  const [urlStart, urlEnd] = config.src.split("/upload/");
+  const transformations = `w_200,q_${config.quality}`;
+  return `${urlStart}/upload/${transformations}/${urlEnd}`;
+};
 
 function Post({
   post,
@@ -16,7 +22,14 @@ function Post({
   return (
     <article className="post">
       <div className="post-image">
-        <Image fill src={post.image} alt={post.title} />
+        <Image
+          width={200}
+          height={120}
+          loader={imageLoader}
+          src={post.image}
+          alt={post.title}
+          quality={50}
+        />
       </div>
       <div className="post-content">
         <header>
