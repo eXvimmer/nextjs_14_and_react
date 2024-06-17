@@ -1,7 +1,4 @@
-export interface IMessage {
-  text: string;
-  id: number;
-}
+import { IMessage } from "@/lib/messages";
 
 export default function Messages({ messages }: { messages: IMessage[] }) {
   return (
