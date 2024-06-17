@@ -29,4 +29,5 @@ export const getMessages = nextCache(
     return db.prepare<[], IMessage>("SELECT * FROM messages").all();
   }),
   ["messages"],
+  { tags: ["msg"] },
 );
