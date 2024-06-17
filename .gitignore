@@ -39,3 +39,4 @@ tags
 # internal
 node_modules
 *.db
+05_caching/Session.vim
