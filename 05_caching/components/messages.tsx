@@ -1,4 +1,9 @@
-export default function Messages({ messages }: { messages: string[] }) {
+export interface IMessage {
+  text: string;
+  id: number;
+}
+
+export default function Messages({ messages }: { messages: IMessage[] }) {
   return (
     <ul className="messages">
       {messages.map((message) => (
