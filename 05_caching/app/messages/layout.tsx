@@ -5,7 +5,7 @@ export default async function MessagesLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const messages = getMessages();
+  const messages = await getMessages();
   const totalMessages = messages.length;
 
   return (

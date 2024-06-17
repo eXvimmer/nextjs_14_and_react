@@ -1,5 +1,6 @@
 import sql from "better-sqlite3";
 import { cache } from "react";
+import { unstable_cache as nextCache } from "next/cache";
 
 export interface IMessage {
   text: string;
@@ -22,7 +23,10 @@ export function addMessage(message: string) {
   db.prepare("INSERT INTO messages (text) VALUES (?)").run(message);
 }
 
-export const getMessages = cache(function getMessages() {
-  console.log("Fetching messages from db");
-  return db.prepare<[], IMessage>("SELECT * FROM messages").all();
-});
+export const getMessages = nextCache(
+  cache(async function getMessages() {
+    console.log("Fetching messages from db");
+    return db.prepare<[], IMessage>("SELECT * FROM messages").all();
+  }),
+  ["messages"],
+);
