@@ -1,3 +1,4 @@
+import { logout } from "@/actions/auth-action";
 import "../globals.css";
 
 export const metadata = {
@@ -14,7 +15,7 @@ export default function AuthRootLayout({
     <>
       <header id="auth-header">
         <p>Welcome back!</p>
-        <form>
+        <form action={logout}>
           <button>Logout</button>
         </form>
       </header>
