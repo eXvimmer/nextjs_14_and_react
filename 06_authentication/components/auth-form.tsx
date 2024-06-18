@@ -1,13 +1,16 @@
 "use client";
 
-import { signup } from "@/actions/auth-action";
+import { auth } from "@/actions/auth-action";
+import { IErrors } from "@/types/types";
 import Link from "next/link";
 import { useFormState } from "react-dom";
 
 export type IFormMode = "login" | "signup";
 
 export default function AuthForm({ mode }: { mode: IFormMode }) {
-  const [formState, formAction] = useFormState(signup, { errors: {} });
+  const [formState, formAction] = useFormState<IErrors>(auth.bind(null, mode), {
+    errors: {},
+  });
 
   return (
     <form action={formAction} id="auth-form">

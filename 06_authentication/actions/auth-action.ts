@@ -1,8 +1,9 @@
 "use server";
 
+import { IFormMode } from "@/components/auth-form";
 import { createAuthSession } from "@/lib/auth";
-import { hashUserPassword } from "@/lib/hash";
-import { createUser } from "@/lib/user";
+import { hashUserPassword, verifyPassword } from "@/lib/hash";
+import { createUser, getUserByEmail } from "@/lib/user";
 import { IErrors } from "@/types/types";
 import { redirect } from "next/navigation";
 
@@ -37,4 +38,39 @@ export async function signup(_prevState: IErrors, formData: FormData) {
     }
     throw e;
   }
+}
+
+export async function login(_prevState: IErrors, formData: FormData) {
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+  const existingUser = getUserByEmail(email);
+  if (!existingUser) {
+    return {
+      errors: {
+        email: "Couldn't authenticate the user. Please check your credentials",
+      },
+    };
+  }
+  const isValidPassword = verifyPassword(existingUser.password, password);
+  if (!isValidPassword) {
+    return {
+      errors: {
+        password:
+          "Couldn't authenticate the user. Please check your credentials",
+      },
+    };
+  }
+  await createAuthSession(existingUser.id.toString());
+  redirect("/training");
+}
+
+export async function auth(
+  mode: IFormMode,
+  prevState: IErrors,
+  formData: FormData,
+) {
+  if (mode === "login") {
+    return login(prevState, formData);
+  }
+  return signup(prevState, formData);
 }
