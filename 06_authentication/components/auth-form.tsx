@@ -4,7 +4,9 @@ import { signup } from "@/actions/auth-action";
 import Link from "next/link";
 import { useFormState } from "react-dom";
 
-export default function AuthForm() {
+export type IFormMode = "login" | "signup";
+
+export default function AuthForm({ mode }: { mode: IFormMode }) {
   const [formState, formAction] = useFormState(signup, { errors: {} });
 
   return (
@@ -27,10 +29,15 @@ export default function AuthForm() {
         <p id="form-errors">{formState.errors.password}</p>
       )}
       <p>
-        <button type="submit">Create Account</button>
+        <button type="submit">{mode === "login" ? "Login" : "Sign Up"}</button>
       </p>
       <p>
-        <Link href="/">Login with existing account.</Link>
+        {mode === "login" && (
+          <Link href="/?mode=signup">Create an account</Link>
+        )}
+        {mode === "signup" && (
+          <Link href="/?mode=login">Login with existing account</Link>
+        )}
       </p>
     </form>
   );
