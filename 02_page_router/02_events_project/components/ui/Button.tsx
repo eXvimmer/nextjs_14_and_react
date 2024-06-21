@@ -7,11 +7,14 @@ export default function Button({
   link,
 }: {
   children: React.ReactNode;
-  link: string | UrlObject;
+  link?: string | UrlObject;
 }) {
-  return (
-    <Link href={link} className={styles.btn}>
-      {children}
-    </Link>
-  );
+  if (link) {
+    return (
+      <Link href={link} className={styles.btn}>
+        {children}
+      </Link>
+    );
+  }
+  return <button>{children}</button>;
 }
