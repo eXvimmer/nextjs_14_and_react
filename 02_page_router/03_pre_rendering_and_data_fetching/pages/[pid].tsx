@@ -5,6 +5,9 @@ import { getData } from "../utils";
 export default function ProductDetailPage({
   product,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  if (!product) {
+    return <p>Loading...</p>;
+  }
   return (
     <>
       <h1>{product.title}</h1>
@@ -16,6 +19,11 @@ export default function ProductDetailPage({
 export const getStaticProps = (async ({ params: { pid } }) => {
   const data = await getData();
   const product = data.products.find((p) => p.id === pid);
+  if (!product) {
+    return {
+      notFound: true,
+    };
+  }
   return {
     props: {
       product,
@@ -33,6 +41,6 @@ export const getStaticPaths = (async () => {
   }));
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }) satisfies GetStaticPaths;
