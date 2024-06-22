@@ -3,3 +3,9 @@ export interface IProduct {
   title: string;
   description: string;
 }
+
+export interface ISalesItem {
+  id: string;
+  username: string;
+  volume: number;
+}
