@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
-import { IProduct } from "../data/types";
-import { getData } from "../utils";
+import { getData } from "../../utils";
+import { IProduct } from "../../data/types";
 
 export default function ProductDetailPage({
   product,

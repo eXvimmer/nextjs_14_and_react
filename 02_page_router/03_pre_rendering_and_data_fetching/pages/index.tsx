@@ -10,7 +10,7 @@ export default function HomePage({
     <ul>
       {products.map((p) => (
         <li key={p.id}>
-          <Link href={`/${p.id}`}>{p.title}</Link>
+          <Link href={`/products/${p.id}`}>{p.title}</Link>
         </li>
       ))}
     </ul>
