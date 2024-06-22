@@ -1,15 +1,10 @@
-import fs from "fs/promises";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
-import path from "path";
 import { IProduct } from "../data/types";
+import { getData } from "../utils";
 
 export default function ProductDetailPage({
   product,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  // // used if fallback is true
-  // if (!product) {
-  //   return <p>Loading...</p>;
-  // }
   return (
     <>
       <h1>{product.title}</h1>
@@ -19,22 +14,8 @@ export default function ProductDetailPage({
 }
 
 export const getStaticProps = (async ({ params: { pid } }) => {
-  const jsonData = await fs.readFile(
-    path.join(process.cwd(), "data", "dummy-backend.json"),
-    "utf8",
-  );
-  const data = JSON.parse(jsonData) as { products: IProduct[] };
-  if (!data || !data.products.length) {
-    return {
-      notFound: true,
-    };
-  }
+  const data = await getData();
   const product = data.products.find((p) => p.id === pid);
-  if (!product) {
-    return {
-      notFound: true,
-    };
-  }
   return {
     props: {
       product,
@@ -45,9 +26,13 @@ export const getStaticProps = (async ({ params: { pid } }) => {
 }>;
 
 export const getStaticPaths = (async () => {
-  // TODO: generate paths dynamically
+  // NOTE: this might not be the best solution if there's a large number of
+  // products
+  const paths = (await getData()).products.map((p) => ({
+    params: { pid: p.id },
+  }));
   return {
-    paths: [{ params: { pid: "p1" } }],
-    fallback: "blocking",
+    paths,
+    fallback: false,
   };
 }) satisfies GetStaticPaths;
