@@ -2,6 +2,7 @@ import fs from "fs/promises";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
 import { IProduct } from "../data/types";
 import path from "path";
+import Link from "next/link";
 
 export default function HomePage({
   products,
@@ -9,7 +10,9 @@ export default function HomePage({
   return (
     <ul>
       {products.map((p) => (
-        <li key={p.id}>{p.title}</li>
+        <li key={p.id}>
+          <Link href={`/${p.id}`}>{p.title}</Link>
+        </li>
       ))}
     </ul>
   );
