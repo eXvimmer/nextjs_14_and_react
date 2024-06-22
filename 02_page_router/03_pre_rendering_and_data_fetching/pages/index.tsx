@@ -21,6 +21,21 @@ export const getStaticProps = (async (/* context */) => {
     "utf8",
   );
   const data = JSON.parse(jsonData) as { products: IProduct[] };
+  if (!data) {
+    return {
+      props: {
+        products: [] as IProduct[],
+      },
+      redirect: {
+        destination: "/somewhere", // NOTE: this route doesn't exist
+      },
+    };
+  }
+  if (!data.products.length) {
+    return {
+      notFound: true,
+    };
+  }
   return {
     props: {
       products: data.products,
