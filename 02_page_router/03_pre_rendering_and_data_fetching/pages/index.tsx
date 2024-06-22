@@ -25,6 +25,7 @@ export const getStaticProps = (async (/* context */) => {
     props: {
       products: data.products,
     },
+    revalidate: 60, // re-generate every 60 seconds
   };
 }) satisfies GetStaticProps<{
   products: IProduct[];
