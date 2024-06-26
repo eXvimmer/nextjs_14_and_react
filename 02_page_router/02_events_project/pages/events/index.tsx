@@ -1,11 +1,13 @@
 import { useRouter } from "next/router";
 import EventsList from "../../components/events/EventsList";
 import EventsSearch from "../../components/events/EventsSearch";
-import { getAllEvents } from "../../dummy_data";
+import { GetStaticProps, InferGetStaticPropsType } from "next";
+import { getAllEvents, IEvent } from "../../helpers/api-utils";
 
-export default function EventsPage() {
+export default function EventsPage({
+  events,
+}: InferGetStaticPropsType<typeof getStaticProps>) {
   const router = useRouter();
-  const events = getAllEvents();
   function findEventsHanlder(year: string, month: string) {
     router.push(`/events/${year}/${month}`);
   }
@@ -17,3 +19,13 @@ export default function EventsPage() {
     </>
   );
 }
+
+export const getStaticProps = async function () {
+  const events = await getAllEvents();
+  return {
+    props: {
+      events,
+    },
+    revalidate: 60,
+  };
+} satisfies GetStaticProps<{ events: IEvent[] }>;
