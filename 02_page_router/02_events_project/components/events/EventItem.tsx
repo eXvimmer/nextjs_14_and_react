@@ -1,9 +1,9 @@
-import { IEvent } from "../../dummy_data";
 import styles from "./EventItem.module.css";
 import Button from "../ui/Button";
 import DateIcon from "../icons/DateIcon";
 import AddressIcon from "../icons/AddressIcon";
 import ArrowRightIcon from "../icons/ArrowRightIcon";
+import { IEvent } from "../../helpers/api-utils";
 
 export default function EventId({
   event: { id, title, date, image, location },

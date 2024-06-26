@@ -1,4 +1,4 @@
-import { IEvent } from "../../dummy_data";
+import { IEvent } from "../../helpers/api-utils";
 import EventItem from "./EventItem";
 import styles from "./EventList.module.css";
 
