@@ -2,6 +2,8 @@ import { GetStaticProps, InferGetStaticPropsType } from "next";
 import EventsList from "../components/events/EventsList";
 import { getFeaturedEvents, IEvent } from "../helpers/api-utils";
 
+// NOTE: firebase is not available in my country,so I couldn't test any of
+// these paths
 export default function HomePage({
   events,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
@@ -19,5 +21,6 @@ export const getStaticProps = async function () {
     props: {
       events,
     },
+    revalidate: 1800, // 30 mins
   };
 } satisfies GetStaticProps<{ events: IEvent[] }>;

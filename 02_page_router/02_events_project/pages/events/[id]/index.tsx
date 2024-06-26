@@ -1,8 +1,11 @@
 import EventSummary from "../../../components/event-detail/EventSummary";
 import EventContent from "../../../components/event-detail/EventContent";
 import EventLogistics from "../../../components/event-detail/EventLogistics";
-import ErrorAlert from "../../../components/ui/ErrorAlert";
-import { getAllEvents, getEventById, IEvent } from "../../../helpers/api-utils";
+import {
+  getFeaturedEvents,
+  getEventById,
+  IEvent,
+} from "../../../helpers/api-utils";
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from "next";
 
 export default function EventDetailPage({
@@ -10,9 +13,9 @@ export default function EventDetailPage({
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   if (!event) {
     return (
-      <ErrorAlert>
-        <p>No Event Found!</p>
-      </ErrorAlert>
+      <div className="center">
+        <p>Loading...</p>
+      </div>
     );
   }
 
@@ -36,15 +39,18 @@ export const getStaticProps = async function ({ params: { id } }) {
   const event = await getEventById(id);
   return {
     props: {
-      event,
+      event: event || null,
     },
+    revalidate: 30, // seconds
   };
 } satisfies GetStaticProps<{ event: IEvent | null }>;
 
 export const getStaticPaths = async function () {
-  const paths = (await getAllEvents()).map((e) => ({ params: { id: e.id } }));
+  const paths = (await getFeaturedEvents())?.map((e) => ({
+    params: { id: e.id },
+  }));
   return {
     paths,
-    fallback: false,
+    fallback: "blocking",
   };
 } satisfies GetStaticPaths;
