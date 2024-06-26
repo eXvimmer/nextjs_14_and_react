@@ -30,3 +30,9 @@ export async function getAllEvents() {
 export async function getFeaturedEvents() {
   return (await getAllEvents()).filter((event) => event.isFeatured);
 }
+
+export async function getEventById(
+  id: string | string[],
+): Promise<IEvent | null> {
+  return (await getAllEvents()).find((event) => event.id === id);
+}
