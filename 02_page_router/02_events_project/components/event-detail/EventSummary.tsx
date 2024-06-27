@@ -1,4 +1,4 @@
-import styles from "./EventSummary.module.css";
+import styles from "./event-summary.module.css";
 
 function EventSummary({ title }: { title: string }) {
   return (

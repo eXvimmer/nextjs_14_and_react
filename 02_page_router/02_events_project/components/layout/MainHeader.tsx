@@ -1,7 +1,7 @@
 import Link from "next/link";
-import styles from "./MainHeader.module.css";
+import styles from "./main-header.module.css";
 
-export default function MainHeader() {
+function MainHeader() {
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
@@ -10,10 +10,12 @@ export default function MainHeader() {
       <nav className={styles.navigation}>
         <ul>
           <li>
-            <Link href="/events">Browse All Events</Link>
+            <Link href="/events">Events</Link>
           </li>
         </ul>
       </nav>
     </header>
   );
 }
+
+export default MainHeader;

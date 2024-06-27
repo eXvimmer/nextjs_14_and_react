@@ -1,7 +1,8 @@
+import Image from "next/image";
 import AddressIcon from "../icons/AddressIcon";
 import DateIcon from "../icons/DateIcon";
-import styles from "./EventLogistics.module.css";
 import LogisticsItem from "./LogisticsItem";
+import styles from "./event-logistics.module.css";
 
 function EventLogistics({
   date,
@@ -14,7 +15,7 @@ function EventLogistics({
   image: string;
   imageAlt: string;
 }) {
-  const readableDate = new Date(date).toLocaleDateString("en-US", {
+  const humanReadableDate = new Date(date).toLocaleDateString("en-US", {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -24,11 +25,12 @@ function EventLogistics({
   return (
     <section className={styles.logistics}>
       <div className={styles.image}>
-        <img src={`/${image}`} alt={imageAlt} />
+        <Image src={`/${image}`} alt={imageAlt} width={400} height={400} />
       </div>
       <ul className={styles.list}>
+        {/* NOTE: we could've passed <DateIcon /> and set the type of icon to JSX.Element instead */}
         <LogisticsItem icon={DateIcon}>
-          <time>{readableDate}</time>
+          <time>{humanReadableDate}</time>
         </LogisticsItem>
         <LogisticsItem icon={AddressIcon}>
           <address>{addressText}</address>

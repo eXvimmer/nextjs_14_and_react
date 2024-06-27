@@ -1,12 +1,12 @@
 import { useRef } from "react";
-import styles from "./EventsSearch.module.css";
 import Button from "../ui/Button";
+import styles from "./events-search.module.css";
 
 interface EventSearchProps {
   onSearch(year: string, month: string): void;
 }
 
-function EventsSearch(props: EventSearchProps) {
+function EventsSearch({ onSearch }: EventSearchProps) {
   const yearRef = useRef<HTMLSelectElement>(null);
   const monthRef = useRef<HTMLSelectElement>(null);
 
@@ -17,7 +17,7 @@ function EventsSearch(props: EventSearchProps) {
     if (!selectedYear || !selectedMonth) {
       return;
     }
-    props.onSearch(selectedYear, selectedMonth);
+    onSearch(selectedYear, selectedMonth);
   };
 
   return (
@@ -44,7 +44,7 @@ function EventsSearch(props: EventSearchProps) {
             <option value="6">June</option>
             <option value="7">July</option>
             <option value="8">August</option>
-            <option value="9">September</option>
+            <option value="9">Septemer</option>
             <option value="10">October</option>
             <option value="11">November</option>
             <option value="12">December</option>

@@ -1,39 +1,48 @@
-import styles from "./EventItem.module.css";
+import { IEvent } from "@/types";
+import styles from "./event-item.module.css";
 import Button from "../ui/Button";
 import DateIcon from "../icons/DateIcon";
 import AddressIcon from "../icons/AddressIcon";
 import ArrowRightIcon from "../icons/ArrowRightIcon";
-import { IEvent } from "../../helpers/api-utils";
+import Image from "next/image";
 
-export default function EventId({
-  event: { id, title, date, image, location },
-}: {
+interface EventItemProps {
   event: IEvent;
-}) {
-  const readableDate = new Date(date).toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-  const formattedAddress = location.replace(", ", "\n");
+}
+
+function EventItem({ event }: EventItemProps) {
+  const readableDate = new Date(event.date || new Date()).toLocaleDateString(
+    "en-US",
+    {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    },
+  );
+  const address = event?.location?.replace(", ", "\n");
 
   return (
     <li className={styles.item}>
-      <img src={`/${image}`} alt={title} />
+      <Image
+        src={"/" + event.image}
+        alt={event.title}
+        width={250}
+        height={160}
+      />
       <div className={styles.content}>
         <div className={styles.summary}>
-          <h2>{title}</h2>
+          <h2>{event.title}</h2>
           <div className={styles.date}>
             <DateIcon />
             <time>{readableDate}</time>
           </div>
           <div className={styles.address}>
             <AddressIcon />
-            <address>{formattedAddress}</address>
+            <address>{address}</address>
           </div>
         </div>
         <div className={styles.actions}>
-          <Button link={`/events/${id}`}>
+          <Button link={`/events/${event.id}`}>
             <span>Explore Event</span>
             <span className={styles.icon}>
               <ArrowRightIcon />
@@ -44,3 +53,5 @@ export default function EventId({
     </li>
   );
 }
+
+export default EventItem;

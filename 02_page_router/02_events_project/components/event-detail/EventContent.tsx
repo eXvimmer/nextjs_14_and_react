@@ -1,6 +1,11 @@
-import styles from "./EventContent.module.css";
+import styles from "./event-content.module.css";
 
-function EventContent({ children }: { children: React.ReactNode }) {
+function EventContent({
+  children,
+}: {
+  children: React.ReactNode;
+  content: string;
+}) {
   return <section className={styles.content}>{children}</section>;
 }
 

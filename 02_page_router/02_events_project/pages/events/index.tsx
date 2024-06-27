@@ -1,31 +1,46 @@
-import { useRouter } from "next/router";
-import EventsList from "../../components/events/EventsList";
-import EventsSearch from "../../components/events/EventsSearch";
+import EventList from "@/components/events/EventList";
+import EventsSearch from "@/components/events/EventsSearch";
+import supabase from "@/services/supabase";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
-import { getAllEvents, IEvent } from "../../helpers/api-utils";
+import Head from "next/head";
+import { useRouter } from "next/router";
 
-export default function EventsPage({
+export default function Events({
   events,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
   const router = useRouter();
-  function findEventsHanlder(year: string, month: string) {
-    router.push(`/events/${year}/${month}`);
-  }
+
+  const handleSearch = (year: string, month: string) => {
+    const fullPath = `/events/${year}/${month}`;
+    router.push(fullPath);
+  };
 
   return (
     <>
-      <EventsSearch onSearch={findEventsHanlder} />
-      <EventsList events={events} />
+      <Head>
+        <title>All Events | NextEvents</title>
+        <meta
+          name="description"
+          content="find related events to improve your life as a developer"
+        />
+      </Head>
+      <EventsSearch onSearch={handleSearch} />
+      <EventList items={events} />
     </>
   );
 }
 
-export const getStaticProps = async function () {
-  const events = await getAllEvents();
+export const getStaticProps = (async () => {
+  const { data, error } = await supabase.from("events").select("*");
+  if (error || !data) {
+    return {
+      notFound: true,
+    };
+  }
   return {
     props: {
-      events,
+      events: data,
     },
-    revalidate: 60,
+    revalidate: 5 * 60, // every 5 minutes
   };
-} satisfies GetStaticProps<{ events: IEvent[] }>;
+}) satisfies GetStaticProps;

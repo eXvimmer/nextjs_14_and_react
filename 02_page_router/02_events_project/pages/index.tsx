@@ -1,26 +1,44 @@
+import EventList from "@/components/events/EventList";
 import { GetStaticProps, InferGetStaticPropsType } from "next";
-import EventsList from "../components/events/EventsList";
-import { getFeaturedEvents, IEvent } from "../helpers/api-utils";
+import supabase from "@/services/supabase";
+import { IEvent } from "@/types";
+import Head from "next/head";
+import NewsletterRegistration from "@/components/input/newsletter-registration";
 
-// NOTE: firebase is not available in my country,so I couldn't test any of
-// these paths
-export default function HomePage({
+export default function Home({
   events,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
-  console.log(events);
   return (
     <div>
-      <EventsList events={events} />
+      <Head>
+        <title>Home | NextEvents</title>
+        <meta
+          name="description"
+          content="find related events to improve your life as a developer"
+        />
+      </Head>
+      <NewsletterRegistration />
+      <EventList items={events} />
     </div>
   );
 }
 
-export const getStaticProps = async function () {
-  const events = await getFeaturedEvents();
+export const getStaticProps = (async (/* context */) => {
+  const { data, error } = await supabase
+    .from("events")
+    .select("*")
+    .eq("isFeatured", true);
+  if (error) {
+    return {
+      props: {
+        events: [] as IEvent[],
+      },
+    };
+  }
   return {
     props: {
-      events,
+      events: data,
     },
-    revalidate: 1800, // 30 mins
+    revalidate: 30 * 60, // every 30 minutes
   };
-} satisfies GetStaticProps<{ events: IEvent[] }>;
+}) satisfies GetStaticProps;

@@ -1,13 +1,12 @@
 import Link from "next/link";
-import { UrlObject } from "url";
-import styles from "./Button.module.css";
+import styles from "./button.module.css";
 
-export default function Button({
+function Button({
   children,
   link,
 }: {
   children: React.ReactNode;
-  link?: string | UrlObject;
+  link?: string;
 }) {
   if (link) {
     return (
@@ -16,5 +15,8 @@ export default function Button({
       </Link>
     );
   }
-  return <button>{children}</button>;
+
+  return <button className={styles.btn}>{children}</button>;
 }
+
+export default Button;
