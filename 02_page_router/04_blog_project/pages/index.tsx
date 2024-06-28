@@ -1,7 +1,10 @@
+import Hero from "@/components/home-page/hero";
+
 export default function HomePage() {
   return (
     <>
-      <h1>Home Page</h1>
+      <Hero />
+      {/* <FeaturedPosts /> */}
     </>
   );
 }
