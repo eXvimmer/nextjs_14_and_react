@@ -1,6 +1,7 @@
 import { IPost } from "@/types";
 import styles from "./post-content.module.css";
 import PostHeader from "./post-header";
+import ReactMarkdown from "react-markdown";
 
 // TODO: get post from database
 const dummyPost: IPost = {
@@ -19,8 +20,7 @@ export default function PostContent() {
         image={`/images/posts/${dummyPost.slug}/${dummyPost.image}`}
         title={dummyPost.title}
       />
-      {dummyPost.content}
-      {/* TODO: add markdown content */}
+      <ReactMarkdown>{dummyPost.content}</ReactMarkdown>
     </article>
   );
 }
