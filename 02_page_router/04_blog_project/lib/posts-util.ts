@@ -5,26 +5,32 @@ import path from "path";
 
 const postsDir = path.join(process.cwd(), "posts");
 
-function getPostData(fileName: string) {
-  const fileContent = fs.readFileSync(path.join(postsDir, fileName), "utf8");
+export function getPostFiles() {
+  return fs.readdirSync(postsDir);
+}
+
+export function getPostData(postIdentifier: string) {
+  const postSlug = postIdentifier.replace(/\.md$/, "");
+  const fileContent = fs.readFileSync(
+    path.join(postsDir, `${postSlug}.md`),
+    "utf8",
+  );
   const { data, content } = matter(fileContent);
   return {
-    slug: fileName.replace(/\.md$/, ""),
+    slug: postSlug,
     ...data,
     content,
   } as IPost;
 }
 
 export function getAllPosts() {
-  return fs
-    .readdirSync(postsDir)
+  return getPostFiles()
     .map((f) => getPostData(f))
     .sort((a, b) => (a.date > b.date ? -1 : 1));
 }
 
 export function getFeaturedPosts() {
-  return fs
-    .readdirSync(postsDir)
+  return getPostFiles()
     .reduce<IPost[]>((featuredPosts, fileName) => {
       const postData = getPostData(fileName);
       if (postData.isFeatured) {
