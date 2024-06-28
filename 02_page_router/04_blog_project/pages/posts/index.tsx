@@ -42,7 +42,7 @@ export const getStaticProps = async function () {
   ];
   return {
     props: {
-      posts, // TODO: fetch posts
+      posts,
     },
   };
 } satisfies GetStaticProps;
