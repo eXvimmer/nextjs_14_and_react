@@ -23,6 +23,8 @@ export const getStaticProps = async function () {
       image: "getting-started-nextjs.png",
       excerpt: "NextJS is the react framework for production",
       date: "2024-02-10",
+      isFeatured: true,
+      content: "",
     },
     {
       slug: "getting-started-with-nextjs2",
@@ -30,6 +32,8 @@ export const getStaticProps = async function () {
       image: "getting-started-nextjs.png",
       excerpt: "NextJS is the react framework for production",
       date: "2024-02-10",
+      isFeatured: false,
+      content: "",
     },
     {
       slug: "getting-started-with-nextjs3",
@@ -37,6 +41,8 @@ export const getStaticProps = async function () {
       image: "getting-started-nextjs.png",
       excerpt: "NextJS is the react framework for production",
       date: "2024-02-10",
+      isFeatured: false,
+      content: "",
     },
     {
       slug: "getting-started-with-nextjs4",
@@ -44,6 +50,8 @@ export const getStaticProps = async function () {
       image: "getting-started-nextjs.png",
       excerpt: "NextJS is the react framework for production",
       date: "2024-02-10",
+      isFeatured: false,
+      content: "",
     },
   ];
   return {

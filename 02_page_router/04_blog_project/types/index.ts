@@ -5,5 +5,6 @@ export interface IPost {
   excerpt: string;
   date: string;
   slug: string;
-  content?: string; // TODO: remove optional
+  content: string;
+  isFeatured: boolean;
 }
