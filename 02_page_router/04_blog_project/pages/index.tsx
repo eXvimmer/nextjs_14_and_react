@@ -14,6 +14,7 @@ export default function HomePage({
   );
 }
 
+// TODO: fetch posts from database
 export const getStaticProps = async function () {
   const posts: IPost[] = [
     {
@@ -47,7 +48,7 @@ export const getStaticProps = async function () {
   ];
   return {
     props: {
-      posts, // TODO: fetch posts
+      posts,
     },
   };
 } satisfies GetStaticProps;
