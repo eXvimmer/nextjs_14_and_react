@@ -13,7 +13,10 @@ async function db(collectionName: string) {
   return db.collection(collectionName);
 }
 
-export default async function (req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse,
+) {
   if (req.method === "POST") {
     const { email, name, message } = req.body;
     if (

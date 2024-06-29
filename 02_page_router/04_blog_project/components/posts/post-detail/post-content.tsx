@@ -3,8 +3,18 @@ import styles from "./post-content.module.css";
 import PostHeader from "./post-header";
 import ReactMarkdown from "react-markdown";
 import Image from "next/image";
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { materialOceanic } from "react-syntax-highlighter/dist/cjs/styles/prism";
+import { PrismLight as SyntaxHighlighter } from "react-syntax-highlighter";
+import materialOceanic from "react-syntax-highlighter/dist/cjs/styles/prism/material-oceanic";
+import js from "react-syntax-highlighter/dist/cjs/languages/prism/javascript";
+import ts from "react-syntax-highlighter/dist/cjs/languages/prism/typescript";
+import css from "react-syntax-highlighter/dist/cjs/languages/prism/css";
+// import cpp from "react-syntax-highlighter/dist/cjs/languages/prism/cpp"
+// import go from "react-syntax-highlighter/dist/cjs/languages/prism/go"
+// import rust from "react-syntax-highlighter/dist/cjs/languages/prism/rust"
+
+SyntaxHighlighter.registerLanguage("js", js);
+SyntaxHighlighter.registerLanguage("ts", ts);
+SyntaxHighlighter.registerLanguage("css", css);
 
 export default function PostContent({
   post: { slug, image, title, content },

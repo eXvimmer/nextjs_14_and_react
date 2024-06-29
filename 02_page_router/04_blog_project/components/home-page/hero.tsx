@@ -12,7 +12,7 @@ export default function Hero() {
           height={300}
         />
       </div>
-      <h1>Hi, I'm Mustafa!</h1>
+      <h1>Hi, I&apos;m Mustafa!</h1>
       <p>I am a full-stack web & indie game developer.</p>
     </section>
   );

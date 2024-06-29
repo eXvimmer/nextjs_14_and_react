@@ -1,5 +1,5 @@
 import styles from "./logo.module.css";
 
 export default function Logo() {
-  return <div className={styles.logo}>Mustafa's Blog</div>;
+  return <div className={styles.logo}>Mustafa&apos;s Blog</div>;
 }

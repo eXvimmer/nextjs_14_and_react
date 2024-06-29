@@ -10,7 +10,7 @@ export default function HomePage({
   return (
     <>
       <Head>
-        <title>Mustafa's blog</title>
+        <title>Mustafa&apos;s blog</title>
         <meta
           name="description"
           content="I write articles about web and game development"
