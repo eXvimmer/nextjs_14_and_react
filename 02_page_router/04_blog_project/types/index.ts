@@ -8,3 +8,9 @@ export interface IPost {
   content: string;
   isFeatured: boolean;
 }
+
+export interface INotification {
+  title: string;
+  message: string;
+  status: "success" | "error" | "pending";
+}
